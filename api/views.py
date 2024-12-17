@@ -7,6 +7,7 @@ from .serializers import (
     TransactionSerializer,
 )
 from django.db.models.manager import BaseManager
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
@@ -50,6 +51,9 @@ class SavingViewSet(viewsets.ModelViewSet):
     serializer_class = SavingSerializer
     permission_classes: list = [IsAuthenticatedOrReadOnly]
 
+    filter_backends: list = [DjangoFilterBackend]
+    filterset_fields: list[str] = ['saving_type']
+
     def get_queryset(self) -> BaseManager[Saving]:
         if self.request.user.is_anonymous:
             return Saving.objects.none()
@@ -65,6 +69,9 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
     serializer_class = SubcategorySerializer
     permission_classes: list = [IsAuthenticatedOrReadOnly]
 
+    filter_backends: list = [DjangoFilterBackend]
+    filterset_fields: list[str] = ['category']
+
     def get_queryset(self) -> BaseManager[Subcategory]:
         if self.request.user.is_anonymous:
             return Subcategory.objects.none()
@@ -79,6 +86,9 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     serializer_class = TransactionSerializer
     permission_classes: list = [IsAuthenticatedOrReadOnly]
+
+    filter_backends: list = [DjangoFilterBackend]
+    filterset_fields: list[str] = ['category', 'subcategory']
 
     def get_queryset(self) -> BaseManager[Transaction]:
         if self.request.user.is_anonymous:

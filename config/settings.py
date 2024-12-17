@@ -41,14 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # Підключення DRF
     'api',  # Підключення нового додатку
+    'django_filters',  # Додавання фільтрація
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',  # Авторизація через браузер
-
     ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',  # Фільтрація
+        ],
 }
 
 MIDDLEWARE = [

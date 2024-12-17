@@ -9,9 +9,6 @@ class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
         fields: list[str] = ['id', 'title', 'category']
-        extra_kwargs: dict[str, dict[str, bool]] = {
-            'category': {'read_only': True},  # Поле тільки для читання
-        }
 
 
 class CategorySerializer(serializers.ModelSerializer):
