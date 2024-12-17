@@ -9,6 +9,7 @@ from .serializers import (
 from django.db.models.manager import BaseManager
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
+from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -33,6 +34,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset: BaseManager[Category] = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes: list = [IsAuthenticatedOrReadOnly]
+    ordering_fields: str = '__all__'
+    ordering: list[str] = ['category']  # Сортування за замовчуванням
 
     def get_queryset(self) -> BaseManager[Category]:
         # Повертає категорії тільки для авторизованого користувача
@@ -53,6 +56,8 @@ class SavingViewSet(viewsets.ModelViewSet):
 
     filter_backends: list = [DjangoFilterBackend]
     filterset_fields: list[str] = ['saving_type']
+    ordering_fields: str = '__all__'
+    ordering: list[str] = ['amount']  # Сортування за замовчуванням
 
     def get_queryset(self) -> BaseManager[Saving]:
         if self.request.user.is_anonymous:
@@ -71,6 +76,8 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
 
     filter_backends: list = [DjangoFilterBackend]
     filterset_fields: list[str] = ['category']
+    ordering_fields: str = '__all__'
+    ordering: list[str] = ['category']  # Сортування за замовчуванням
 
     def get_queryset(self) -> BaseManager[Subcategory]:
         if self.request.user.is_anonymous:
@@ -87,8 +94,10 @@ class TransactionViewSet(viewsets.ModelViewSet):
     serializer_class = TransactionSerializer
     permission_classes: list = [IsAuthenticatedOrReadOnly]
 
-    filter_backends: list = [DjangoFilterBackend]
+    filter_backends: list = [DjangoFilterBackend, OrderingFilter]
     filterset_fields: list[str] = ['category', 'subcategory']
+    ordering_fields: str = '__all__'
+    ordering: list[str] = ['category']  # Сортування за замовчуванням
 
     def get_queryset(self) -> BaseManager[Transaction]:
         if self.request.user.is_anonymous:
