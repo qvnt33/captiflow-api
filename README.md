@@ -71,7 +71,7 @@ python manage.py runserver
 Сервер буде доступний за адресою:
 `http://127.0.0.1:8000/`.
 
-## Інструкція з налаштування (через Docker)
+## Docker: налаштування та запуск
 
 ### 1. Клонування репозиторію
 ```
@@ -87,37 +87,21 @@ cd captiflow-api
 4. Для Docker-середовища вкажіть: `DATABASE_HOST=db`
 
 ### 3. Запуск Docker
-1.	Запустіть сервіси через **Docker Compose**: `docker-compose up -d`
-2.	Перевірте, чи контейнери працюють: `docker ps`
+1. Запустіть сервіси через **Docker Compose**: `docker-compose up -d`.
+2. Перевірте, чи контейнери працюють: `docker ps`.
 
 ### 4. Виконання міграцій у Docker
-Для застосування міграції, виконайте: `docker exec -it drf_app python manage.py migrate`
+Для застосування міграції, виконайте:
+
+```
+docker exec -it drf_app python manage.py makemigrations
+docker exec -it drf_app python manage.py migrate
+```
 
 ### 5. Створення суперкористувача у Docker
-Щоб створити суперкористувача: `docker exec -it drf_app python manage.py createsuperuser`
+Щоб створити суперкористувача: `docker exec -it drf_app python manage.py createsuperuser`.
 
-
-## Запуск проєкту (через Docker)
-
-### 1. Застосування міграцій
-
-```
-python manage.py makemigrations
-python manage.py migrate
-```
-### 2. Створення суперкористувача (для адмін-панелі)
-
-
-```
-python manage.py createsuperuser
-```
-
-### 3. Запуск сервера
-
-```
-python manage.py runserver
-```
-
+### 6. Відкриття сервера
 Сервер буде доступний за адресою:
 `http://127.0.0.1:8000/`.
 
@@ -126,7 +110,7 @@ python manage.py runserver
 
 ### 1. Отримання токену (JWT)
 
-Для використання **API** спершу отримайте токен доступу. Надішліть POST-запит на `/api/token/`:
+Для використання **API** спершу отримайте токен доступу. Надішліть **POST-запит** на `/api/token/`:
 
 ```
 {
