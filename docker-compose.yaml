@@ -1,18 +1,18 @@
 services:
-  app:
-    build: .
+  app:  # Сервіс для запуску веб-додатка
+    build: .  # Збірка образу з Dockerfile у поточній директорії
     container_name: drf_app
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000  # Команда для запуску Django-сервера
     volumes:
-      - .:/app
+      - .:/app  # Прив'язується локальна директорія до директорії /app у контейнері
     ports:
-      - "8000:8000"
+      - "8000:8000"  # Порт 8000 на хості та контейнері
     depends_on:
-      - db
+      - db  # Визначається, що сервіс залежить від db і повинен запускатися після нього
     env_file:
-      - .env
+      - .env  # Завантажуються змінні середовища з файлу .env
 
-  db:
+  db:  # Сервіс для роботи з PostgreSQL
     image: postgres:13
     container_name: drf_db
     environment:
@@ -20,9 +20,9 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
-      - "5432:5432"
+      - "5432:5432"  # Порт 5432 для БД на хості та контейнері
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data  # Використовується іменований том для збереження даних бази
 
 volumes:
-  db_data:
+  db_data:  # Оголошується іменований том для збереження даних PostgreSQL
