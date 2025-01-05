@@ -46,7 +46,6 @@ instance/
 .ipynb_checkpoints
 
 # Environments (віртуальні середовища)
-.env
 .venv
 env/
 venv/
